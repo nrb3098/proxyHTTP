@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -12,22 +13,29 @@ public class ManejadorCliente {
         BufferedReader br = new BufferedReader(new InputStreamReader(clientEntrada.getInputStream()));                       
         StringBuilder requestBuilder = new StringBuilder();
         String line;
-        System.out.println("SE SOLICITA ESTO: \n");
-        while ((line = br.readLine())!=null) {
-            requestBuilder.append(line + "\r\n");   
+        int contador=0;
+        try{
+            while ((line = br.readLine())!=null) {
+                requestBuilder.append(line + "\r\n");   
+                System.out.println("SE SOLICITA ESTO" + contador + ": \n");
+                contador++;
+            }
+        }catch(Exception e){
+            System.out.println(e);
         }
+        
 
         
         //sacamos el metodo y la url para abrir
         String request = requestBuilder.toString();
-        System.out.println("SE SOLICITA ESTO: \n");
-        //String direccion = urlDeSolicitud(request);
-        //String metodosolicitud = metodoDeSolicitud(request);
+        System.out.println("SE SOLICITA ESTO  Seg: \n");
+        String direccion = urlDeSolicitud(request);
+        String metodosolicitud = metodoDeSolicitud(request);
         
         System.out.println(request);              
         
-        /*
-        if(direccion!=null && metodosolicitud!=null){
+        
+        if(direccion!=null && metodosolicitud!=null){            
             URL url = new URL(direccion);
             HttpURLConnection conexion= (HttpURLConnection) url.openConnection();            
             conexion.setRequestMethod(metodosolicitud);
@@ -37,11 +45,15 @@ public class ManejadorCliente {
             OutputStream clientOutput = clientEntrada.getOutputStream();
             String i;   
             while ((i = bufferEntrada.readLine()) != null)    
-            {   
-                System.out.println(i);
-                clientOutput.write(i.getBytes());       
+            {   try{
+                    System.out.println(i);
+                    clientOutput.write(i.getBytes());       
+                }catch(Exception e){
+                    System.out.println(e);
+                }
+                
             }             
-        }*/
+        }
         
         
         
