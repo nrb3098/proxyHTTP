@@ -40,15 +40,18 @@ public class ManejadorCliente {
             HttpURLConnection conexion= (HttpURLConnection) url.openConnection();            
             conexion.setRequestMethod(metodosolicitud);
             System.out.println("SE RESPONDIENDO ESTO: \n" );
-            String estatus = (conexion.getResponseCode()+ " " + conexion.getResponseMessage());
+            String estatus = (conexion.getResponseCode()+ " " + conexion.getResponseMessage()+"\n");
             BufferedWriter proxyaClientBW = new BufferedWriter(new OutputStreamWriter(clientEntrada.getOutputStream()));
             proxyaClientBW.write(estatus);
+            proxyaClientBW.write("Content-Type: "+conexion.getContentType()+"\n");
+            proxyaClientBW.write("\r\n");
             BufferedReader proxyAafueraReader = new BufferedReader(new InputStreamReader(conexion.getInputStream()));
             String linea;
             while((linea= proxyAafueraReader.readLine())!= null){
                 proxyaClientBW.write(linea);
             }
             proxyaClientBW.flush();
+            proxyaClientBW.close();
             proxyAafueraReader.close();
             conexion.disconnect();
         }
