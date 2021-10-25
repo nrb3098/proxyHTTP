@@ -8,7 +8,7 @@ public class App {
                 // manejador de cliente
                 try( Socket cliente = serverSocket.accept()){
                     ManejadorCliente.manejarCliente(cliente);
-                    
+                   
                 }
             }
         }
